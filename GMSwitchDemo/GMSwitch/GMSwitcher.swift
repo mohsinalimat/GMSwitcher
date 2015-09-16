@@ -11,6 +11,7 @@ import UIKit
 class GMSwitcher: UIControl {
     private var imgSwitch:UIImageView = UIImageView(image: UIImage(named: "switch-x.png"))
     private var panView:UIView = UIView()
+    private var upperView:UIView = UIView()
     var minPosision:CGFloat = 0
     var index = 0
     
@@ -28,13 +29,20 @@ class GMSwitcher: UIControl {
     func setupView() {
         self.layer.cornerRadius = self.frame.height/2
         self.layer.masksToBounds = true
+        self.backgroundColor = UIColor(red:137/255, green: 142/255, blue: 145/255, alpha: 1)
         self.setupPanView()
+        self.upperView.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width+20, self.frame.size.height+15)
+        self.addSubview(self.upperView)
+        self.bringSubviewToFront(self.upperView)
+        self.upperView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2)
+        //        self.bringSubviewToFront(self.upperView)
         let viewRecognizer = UITapGestureRecognizer(target: self, action:"slideView:")
-        self.addGestureRecognizer(viewRecognizer)
+        self.upperView.addGestureRecognizer(viewRecognizer)
     }
     private func setupPanView() {
         panView = UIView()
         self.addSubview(panView);
+        self.bringSubviewToFront(panView)
         panView.frame = CGRectMake(gapDistance, 0, self.frame.height-gapDistance, self.frame.height-gapDistance)
         panView.center = CGPointMake(panView.center.x, self.frame.height/2)
         panView.layer.cornerRadius = panView.frame.size.width/2
@@ -44,6 +52,7 @@ class GMSwitcher: UIControl {
         let panViewRecognizer = UIPanGestureRecognizer(target: self, action:"slidePanView:")
         panView.addGestureRecognizer(panViewRecognizer)
         panView.addSubview(imgSwitch)
+        
         imgSwitch.center = CGPointMake(panView.frame.size.width/2, panView.frame.size.height/2)
     }
     func slidePanView(recognizer: UIPanGestureRecognizer) {
@@ -76,7 +85,7 @@ class GMSwitcher: UIControl {
         } else if(panView.frame.origin.x > maxPosition && panView.frame.origin.x <= self.frame.size.width-panView.bounds.width) {
             panView.frame.origin.x = maxPosition
         } else if(panView.frame.origin.x > self.frame.size.width-panView.bounds.width){
-            panView.frame.origin.x = self.frame.size.width-panView.bounds.width 
+            panView.frame.origin.x = self.frame.size.width-panView.bounds.width
         }
     }
     
@@ -104,6 +113,7 @@ class GMSwitcher: UIControl {
             self.panView.backgroundColor = UIColor(red: 75/255, green: 193/255, blue: 210/255, alpha: 1)
             self.imgSwitch.image = UIImage(named: "switch-check.png")
             self.index = 1
+            self.bringSubviewToFront(self.panView)
         })
     }
     func switchLeft() {
@@ -115,6 +125,7 @@ class GMSwitcher: UIControl {
             self.panView.backgroundColor = UIColor.whiteColor()
             self.imgSwitch.image = UIImage(named: "switch-x.png")
             self.index = 0
+            self.bringSubviewToFront(self.panView)
         })
     }
     
