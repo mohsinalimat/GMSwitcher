@@ -75,7 +75,7 @@ class GMSwitcher: UIControl {
             panView.frame.origin.x = minPosision
         } else if(panView.frame.origin.x > maxPosition && panView.frame.origin.x <= self.frame.size.width-panView.bounds.width) {
             panView.frame.origin.x = maxPosition
-        } else {
+        } else if(panView.frame.origin.x > self.frame.size.width-panView.bounds.width){
             panView.frame.origin.x = self.frame.size.width-panView.bounds.width 
         }
     }
